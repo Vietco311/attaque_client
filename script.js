@@ -1,45 +1,60 @@
-const identifiant = document.querySelector('#identifiant');
-const mdp = document.querySelector('#mdp');
-const connexion = document.querySelector('#connexion');
+const identifiant = document.querySelector('#username');
+const mdp = document.querySelector('#password');
+const connexion = document.querySelector('#btn-connexion');
+console.log("aa")
 
-const nb_out_id = 0;
-const nb_out_mdp = 0;
-const reg_id = identifiant.innerHTML;
+const url = 'http://localhost:3000/info';
+
+let entrerIdentifiant = false;
+let entrerPassword = false;
+let cliqueConnexion = false;
+
+const messageBienveillant = "Attention : Vous venez de participer à un exercice de sensibilisation à la cybersécurité. Heureusement, cette fois, c'était inoffensif et vos données n'ont pas été stockées ni utilisées. Toujours vérifier l'URL avant d'entrer vos informations personnelles sur Internet, et surtout ne pas ouvrir des liens recu par mail !";
+
+function afficherMessageBienveillant() {
+    alert(messageBienveillant);
+}
 
 connexion.addEventListener('click', () => {
-    window.location.href("index.html") 
-    reg_id = identifiant.innerHTML;
-    envoyerDonnee(reg_id, nb_out_id, nb_out_mdp);
-})
+    cliqueConnexion = true;
+    envoyerDonnee();
+    afficherMessageBienveillant();
+});
 
 identifiant.addEventListener('focusout', () => {
-    nb_out_id++;
-})
+    entrerIdentifiant = true;
+});
 
 mdp.addEventListener('focusout', () => {
-    nb_out_mdp++;
-})
+    entrerPassword = true;
+});
 
-function envoyerDonnee(identifiant, nb_out_id, nb_out_mdp) {
+// Détecter la tentative de quitter la page
+window.addEventListener('beforeunload', (event) => {
+    envoyerDonnee();
+    event.returnValue = messageBienveillant;
+    return messageBienveillant;
+});
 
-    // Créer un objet avec les données à envoyer
-    var data = {
-        identifiant: identifiant,
-        champ_id: nb_out_id,
-        champ_mdp: nb_out_mdp
+function envoyerDonnee() {
+    const data = {
+        entrerIdentifiant: entrerIdentifiant,
+        entrerPassword: entrerPassword,
+        cliqueConnexion: cliqueConnexion,
     };
 
-    // Utiliser AJAX pour envoyer les données à un fichier PHP
-    $.ajax({
-        type: "POST",
-        url: "../connexion.php",
-        data: data,
-        success: function(response) {
-            // Traiter la réponse du serveur (facultatif)
-            console.log(response);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
         },
-        error: function(error) {
-            console.log("Erreur AJAX : " + error);
-        }
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
     });
 }
