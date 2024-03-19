@@ -47,6 +47,35 @@ aside, section, main {
 
 /* Material */
 
+.eye path{
+    fill: #ff5522;
+    transition: 500ms;
+}
+
+.bouton:hover > .eye path{
+    fill: white;
+}
+
+.bouton:focus > .eye path{
+    fill: white;
+}
+
+.bouton:active > .eye path{
+    fill: white;
+}
+
+.div-question{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 4px;
+    height: 46px;
+}
+
+.mdp-oublie{
+    margin-left: 5px;
+}
+
 .mdc-drawer {
     top: 56px;
 }
