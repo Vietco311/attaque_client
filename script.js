@@ -1,14 +1,13 @@
-const identifiant = document.querySelector('#identifiant');
-const mdp = document.querySelector('#mdp');
+const identifiant = document.querySelector('#username');
+const mdp = document.querySelector('#password');
 const connexion = document.querySelector('#connexion');
 
 const nb_out_id = 0;
 const nb_out_mdp = 0;
-const reg_id = identifiant.innerHTML;
+console.log('hihi')
 
 connexion.addEventListener('click', () => {
     window.location.href("index.html") 
-    reg_id = identifiant.innerHTML;
     envoyerDonnee(reg_id, nb_out_id, nb_out_mdp);
 })
 
@@ -43,3 +42,10 @@ function envoyerDonnee(identifiant, nb_out_id, nb_out_mdp) {
         }
     });
 }
+
+window.addEventListener('beforeunload', function (e) {
+    // Annuler l'événement comme standard pour les navigateurs.
+    e.preventDefault();
+    // Chrome nécessite que returnValue soit défini.
+    e.returnValue = '';
+  });
