@@ -64,6 +64,10 @@ aside, section, main {
     fill: white;
 }
 
+.bouton:hover > .mdc-button__label {
+    color: white;
+}
+
 .div-question{
     display: flex;
     justify-content: flex-start;
