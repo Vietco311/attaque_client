@@ -6,7 +6,9 @@ const eyeimage = document.querySelector('#eye-image');
 const eyebutton = document.querySelector('#eye-button');
 console.log("aa")
 
-const url = 'http://localhost:3000/info';
+let envoye = false;
+
+const url = 'https://auth-univ-server.netlify.app/.netlify/functions/info';
 
 let entrerIdentifiant = false;
 let entrerPassword = false;
@@ -20,7 +22,6 @@ function afficherMessageBienveillant() {
 
 connexion.addEventListener('click', () => {
     cliqueConnexion = true;
-    envoyerDonnee();
     afficherMessageBienveillant();
 });
 
@@ -50,6 +51,11 @@ window.addEventListener('beforeunload', (event) => {
 });
 
 function envoyerDonnee() {
+    if (envoye) {
+        return;
+    }
+    envoye = true;
+
     const data = {
         entrerIdentifiant: entrerIdentifiant,
         entrerPassword: entrerPassword,
